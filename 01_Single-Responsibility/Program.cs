@@ -48,12 +48,7 @@ namespace SingleResponsibilityPrinciple
             j.AddEntry(" not so innovative entry2"); 
             j.AddEntry(" not so innovative entry3");
             j.AddEntry(" not so innovative entry4");
-            j.AddEntry(" not so innovative entry4");
-            j.AddEntry(" not so innovative entry4");
-            j.AddEntry(" not so innovative entry4");
-            j.AddEntry(" not so innovative entry4");
-            j.AddEntry(" not so innovative entry4");
-            j.AddEntry(" not so innovative entry4");
+            
             WriteLine(j);
             j.Save("test.txt");
             ReadLine();
