@@ -104,7 +104,7 @@ namespace _02_OpenClosedPrinciple
     }
 
     #region --->GenericSpecification Challenge!!!<---
-    public class GenericSpecification<T> : ISpecification<Product> 
+    //public class GenericSpecification<T> : ISpecification<Product> 
     //{
     //    private string Property;
 
