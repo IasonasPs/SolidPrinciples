@@ -90,8 +90,8 @@ namespace SingleResponsibilityPrinciple
             WriteLine("Journal :");
             var j = new Journal();
 
-            j.AddEntry("Fucking awesome entry");
-            j.AddEntry("Beatiful fucking entry");
+            j.AddEntry("Fucking awesome entry!!");
+            j.AddEntry("entry at 10/06/23");
             j.AddEntry(" not so innovative entry0");
             j.AddEntry(" not so innovative entry1");
             j.AddEntry(" not so innovative entry2");
@@ -99,6 +99,7 @@ namespace SingleResponsibilityPrinciple
             j.AddEntry(" not so innovative entry4");
             j.AddEntry(" not so innovative entry5");
             j.AddEntry("entry at 13/06/23");
+            j.AddEntry("entry at 14/06/23");
 
             WriteLine("--------------------------------");
             Persistence persistence = new Persistence();

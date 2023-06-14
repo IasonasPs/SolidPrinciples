@@ -131,7 +131,13 @@ namespace _02_OpenClosedPrinciple
     //    {
     //        throw new NotImplementedException();
     //    }
-    //}
+    //}                                     
+    //                                      /\
+    //                                      ||
+    //Thats the call i want to achieve :    ||
+    //GenericSpecification genericSpec = new GenericSpecification(Color.Blue,Size.Small);
+
+
     #endregion
 
     public class BetterFilter : IFilter<Product>

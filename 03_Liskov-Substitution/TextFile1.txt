@@ -1,0 +1,5 @@
+﻿https://stackify.com/solid-design-liskov-substitution-principle/
+
+
+
+https://blog.knoldus.com/what-is-liskov-substitution-principle-lsp-with-real-world-examples/
