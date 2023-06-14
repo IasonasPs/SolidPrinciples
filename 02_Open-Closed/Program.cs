@@ -43,7 +43,7 @@ namespace _02_OpenClosedPrinciple
                 }
             }
         }
-        public static IEnumerable<Product> FilterByColor(IEnumerable<Product> products, Color color)
+        public static IEnumerable<Product> FilterByColor(IEnumerable<Product>    products, Color color)
         {
             foreach (Product product in products)
             {
@@ -102,6 +102,21 @@ namespace _02_OpenClosedPrinciple
             return t.Size.Equals(size);
         }
     }
+    public class AndSpecification<T> : ISpecification<T> 
+    {
+        private ISpecification<T> first,second;
+
+        public AndSpecification(ISpecification<T> first, ISpecification<T> second)
+        {
+            this.first = first;
+            this.second = second;
+        }
+
+        public bool IsSatisfied(T t)
+        {
+            return first.IsSatisfied(t) && second.IsSatisfied(t);
+        }
+    }
 
     #region --->GenericSpecification Challenge!!!<---
     //public class GenericSpecification<T> : ISpecification<Product> 
@@ -142,8 +157,10 @@ namespace _02_OpenClosedPrinciple
             var tree = new Product("Tree", Color.red, Size.large);
             var house = new Product("House", Color.blue, Size.large);
             var camperVan = new Product("CamperVan", Color.blue, Size.small); 
+            var bicycle = new Product("Bicycle", Color.blue, Size.small); 
+            var rock = new Product("blue rock",Color.blue, Size.small);
             #endregion
-            Product[] products = { apple, tree, house, camperVan };
+            Product[] products = { apple, tree, house, camperVan, bicycle, rock };
             WriteLine("Violating the Open-Closed Principle");
             #region
             WriteLine("-----------------------------------");
@@ -161,16 +178,22 @@ namespace _02_OpenClosedPrinciple
             WriteLine("Following the Open-Closed Principle");
             #region
             WriteLine("-----------------------------------");
-            WriteLine("Blue products : ");
             BetterFilter bF = new BetterFilter();
             ColorSpec redSpec = new ColorSpec(Color.red);
+            ColorSpec blueSpec = new ColorSpec(Color.blue);
             SizeSpec largeSpec = new SizeSpec(Size.large);
+            SizeSpec smallSpec = new SizeSpec(Size.small);
+            WriteLine("Blue products : ");
             var outcome03 = bF.Filter(products, redSpec);
             outcome03.ToList().ForEach(product => { WriteLine(product);});
             WriteLine("Large Products :");
             var outcome04 = bF.Filter(products, largeSpec);
             outcome04.ToList().ForEach(product => {WriteLine(product);});
+            WriteLine("Blue and small products");
+            AndSpecification<Product> and = new AndSpecification<Product>(blueSpec,smallSpec);
+            var outcome05 = bF.Filter(products, and);
+            outcome05.ToList().ForEach(WriteLine);
             #endregion
         }
     }
-}
+} 
