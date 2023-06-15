@@ -14,7 +14,6 @@ namespace _05_Dependency_Inversion
         public class Person
         {
             public string Name;
-
         }
         #endregion
 
@@ -96,10 +95,10 @@ namespace _05_Dependency_Inversion
                 return relations.
                     Where(r => r.Item1.Name.Equals(name) && r.Item2.Equals(Relationship.Parent))
                     .Select(r => r.Item3);
-            } 
+            }
             #endregion
 
-        } 
+        }
         #endregion
 
 
@@ -116,6 +115,13 @@ namespace _05_Dependency_Inversion
             //    }
             //}
 
+            public Research(IRelationshipBrowser browser, string name)
+            {
+                foreach (var c in browser.FindAllChildrenOf(name))
+                {
+                    WriteLine($"{name} has a child called {c.Name}");
+                }
+            }
             static void Main(string[] args)
             {
                 var parent = new Person { Name = "Jack" };
@@ -128,8 +134,7 @@ namespace _05_Dependency_Inversion
                 relationships.AddParentAndChild(parent, child1);
                 relationships.AddParentAndChild(child0, grand_Child);
                 WriteLine("---------------------------");
-                //new Research(relationships);
-
+                new Research(relationships, "Jack");
             }
         }
     }
