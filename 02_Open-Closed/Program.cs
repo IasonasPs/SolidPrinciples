@@ -5,7 +5,7 @@ using System.Diagnostics;
 namespace _02_OpenClosedPrinciple
 {
     #region Basic Entities
-    public enum Color 
+    public enum Color
     {
         red, green, blue, white, black
     }
@@ -18,6 +18,22 @@ namespace _02_OpenClosedPrinciple
         public string Name { get; set; }
         public Color Color { get; set; }
         public Size Size { get; set; }
+        #region Necessary for GenericSpecification!!
+        public Dictionary<string, string> Properties()
+        {
+            var name = Name.ToString();
+            var color = Color.ToString();
+            var size = Size.ToString();
+
+            var properties = new Dictionary<string, string>
+            {
+                //{"Name",name },
+                {"Color",color},
+                {"Size",size }
+            };
+            return properties;
+        } 
+        #endregion
 
         public Product(string name, Color color, Size size)
         {
@@ -43,7 +59,7 @@ namespace _02_OpenClosedPrinciple
                 }
             }
         }
-        public static IEnumerable<Product> FilterByColor(IEnumerable<Product>    products, Color color)
+        public static IEnumerable<Product> FilterByColor(IEnumerable<Product> products, Color color)
         {
             foreach (Product product in products)
             {
@@ -68,14 +84,14 @@ namespace _02_OpenClosedPrinciple
     #region Interfaces
     public interface ISpecification<T>
     {
-       bool IsSatisfied(T t);
+        bool IsSatisfied(T t);
     }
     public interface IFilter<T>
     {
-        IEnumerable<T> Filter(IEnumerable<T> items,ISpecification<T> spec);
+        IEnumerable<T> Filter(IEnumerable<T> items, ISpecification<T> spec);
     }
     #endregion
-    public class ColorSpec :ISpecification<Product>
+    public class ColorSpec : ISpecification<Product>
     {
         private Color color;
 
@@ -102,9 +118,9 @@ namespace _02_OpenClosedPrinciple
             return t.Size.Equals(size);
         }
     }
-    public class AndSpecification<T> : ISpecification<T> 
+    public class AndSpecification<T> : ISpecification<T>
     {
-        private ISpecification<T> first,second;
+        private ISpecification<T> first, second;
 
         public AndSpecification(ISpecification<T> first, ISpecification<T> second)
         {
@@ -119,19 +135,44 @@ namespace _02_OpenClosedPrinciple
     }
 
     #region --->GenericSpecification Challenge!!!<---
-    //public class GenericSpecification<T> : ISpecification<Product> 
-    //{
-    //    private string Property;
+    public class GenericSpecification<T, K> : ISpecification<Product>
+    {
+        private string Property00;
+        private string Property01;
+        private string value00;
+        private string value01;
 
-    //    public GenericSpecification(T s )
-    //    {
-    //        Property = s.GetType().Name;
-    //    }
-    //    public bool IsSatisfied(Product t)
-    //    {
-    //        throw new NotImplementedException();
-    //    }
-    //}                                     
+        public GenericSpecification(T s, K k) //e.g. <Color,Size>
+        {
+            Property00 = s.GetType().Name;
+            value00 = s.ToString();
+
+            Property01 = k.GetType().Name;
+            value01 = k.ToString();
+            WriteLine($"Generic Specification for [{Property00}] and [{Property01}] in this exact order");
+            WriteLine(Property00 + ":" + value00);
+            WriteLine(Property01 + ":" + value01);
+            WriteLine("---------------------------");
+        }
+
+        public bool IsSatisfied(Product t)
+        {
+            bool control0 = false;
+            bool control1 = false;
+            foreach(var property in t.Properties()) 
+            {
+                if (property.Key == Property00 && property.Value == value00)
+                {
+                        control0 = true;
+                }
+                else if (property.Key == Property01 && property.Value == value01)
+                {
+                    control1 = true;
+                }
+            }
+            return control0 && control1;
+        }
+    }
     //                                      /\
     //                                      ||
     //Thats the call i want to achieve :    ||
@@ -144,9 +185,9 @@ namespace _02_OpenClosedPrinciple
     {
         public IEnumerable<Product> Filter(IEnumerable<Product> items, ISpecification<Product> spec)
         {
-            foreach(Product product in items)
+            foreach (Product product in items)
             {
-                if(spec.IsSatisfied(product))
+                if (spec.IsSatisfied(product))
                 {
                     yield return product;
                 }
@@ -162,11 +203,14 @@ namespace _02_OpenClosedPrinciple
             var apple = new Product("apple", Color.red, Size.small);
             var tree = new Product("Tree", Color.red, Size.large);
             var house = new Product("House", Color.blue, Size.large);
-            var camperVan = new Product("CamperVan", Color.blue, Size.small); 
-            var bicycle = new Product("Bicycle", Color.blue, Size.small); 
-            var rock = new Product("blue rock",Color.blue, Size.small);
+            var camperVan = new Product("CamperVan", Color.blue, Size.small);
+            var bicycle = new Product("Bicycle", Color.blue, Size.small);
+            var rock = new Product("blue rock", Color.blue, Size.small);
+            var tomato = new Product("Tomato", Color.red, Size.small);
+            var potato = new Product("Potato", Color.green, Size.medium);
+
             #endregion
-            Product[] products = { apple, tree, house, camperVan, bicycle, rock };
+            Product[] products = { apple, tree, house, camperVan, bicycle, rock,tomato };
             WriteLine("Violating the Open-Closed Principle");
             #region
             WriteLine("-----------------------------------");
@@ -191,15 +235,27 @@ namespace _02_OpenClosedPrinciple
             SizeSpec smallSpec = new SizeSpec(Size.small);
             WriteLine("Blue products : ");
             var outcome03 = bF.Filter(products, redSpec);
-            outcome03.ToList().ForEach(product => { WriteLine(product);});
+            outcome03.ToList().ForEach(product => { WriteLine(product); });
             WriteLine("Large Products :");
             var outcome04 = bF.Filter(products, largeSpec);
-            outcome04.ToList().ForEach(product => {WriteLine(product);});
+            outcome04.ToList().ForEach(product => { WriteLine(product); });
             WriteLine("Blue and small products");
-            AndSpecification<Product> and = new AndSpecification<Product>(blueSpec,smallSpec);
+            AndSpecification<Product> and = new AndSpecification<Product>(blueSpec, smallSpec);
             var outcome05 = bF.Filter(products, and);
             outcome05.ToList().ForEach(WriteLine);
             #endregion
+            WriteLine("=================================================================");
+            var generic0 = new GenericSpecification<Color, Size>(Color.blue, Size.small);
+
+            var outcome06 = bF.Filter(products, generic0); //it doesnt call the bf.Filter() method here!!!WHY????
+            outcome06.ToList().ForEach(WriteLine);//indtead it calls it here
+
+
+
+            var generic1 = new GenericSpecification<Size,Color>(Size.small, Color.red);
+            var outcome07 = bF.Filter(products, generic1);
+            outcome07.ToList().ForEach(WriteLine);
+
         }
     }
-} 
+}
