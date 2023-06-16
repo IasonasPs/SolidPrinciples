@@ -141,12 +141,10 @@ namespace _02_OpenClosedPrinciple
         private string Property01;
         private string value00;
         private string value01;
-
         public GenericSpecification(T s, K k) //e.g. <Color,Size>
         {
             Property00 = s.GetType().Name;
             value00 = s.ToString();
-
             Property01 = k.GetType().Name;
             value01 = k.ToString();
             WriteLine($"Generic Specification for [{Property00}] and [{Property01}] in this exact order");
@@ -175,11 +173,11 @@ namespace _02_OpenClosedPrinciple
     }
     //                                      /\
     //                                      ||
-    //Thats the call i want to achieve :    ||
+    //                                      ||
+    //Thats the call i want to achieve :    
     //GenericSpecification genericSpec = new GenericSpecification(Color.Blue,Size.Small);
-
-
     #endregion
+
 
     public class BetterFilter : IFilter<Product>
     {
@@ -246,11 +244,8 @@ namespace _02_OpenClosedPrinciple
             #endregion
             WriteLine("=================================================================");
             var generic0 = new GenericSpecification<Color, Size>(Color.blue, Size.small);
-
             var outcome06 = bF.Filter(products, generic0); //it doesnt call the bf.Filter() method here!!!WHY????
             outcome06.ToList().ForEach(WriteLine);//indtead it calls it here
-
-
 
             var generic1 = new GenericSpecification<Size,Color>(Size.small, Color.red);
             var outcome07 = bF.Filter(products, generic1);
