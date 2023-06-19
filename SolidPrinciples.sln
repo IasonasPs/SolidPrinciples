@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "02_Open-Closed", "02_Open-C
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "03_Liskov-Substitution", "03_Liskov-Substitution\03_Liskov-Substitution.csproj", "{A8546731-BA00-4F99-BC4F-5FC467EB4362}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "04_Interface-Segregation", "04_Interface-Segregation\04_Interface-Segregation.csproj", "{531FB699-E924-4DB4-9E16-E5B6D7F48293}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "04_Interface_Segregation", "04_Interface-Segregation\04_Interface_Segregation.csproj", "{531FB699-E924-4DB4-9E16-E5B6D7F48293}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "05_Dependency-Inversion", "05_Dependency-Inversion\05_Dependency-Inversion.csproj", "{E0B7324A-417D-4D0F-9399-5AD0CA429F3B}"
 EndProject

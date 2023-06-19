@@ -3,7 +3,7 @@ using Models;
 
 namespace Services
 {
-    #region Violating I-S Principle
+    // Violating I-S Principle
 
     public class MultiFunctionalPrinter : IMachine
     {

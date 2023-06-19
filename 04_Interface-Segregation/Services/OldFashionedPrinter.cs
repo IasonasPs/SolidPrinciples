@@ -3,7 +3,7 @@ using Models;
 
 namespace Services
 {
-    #region Violating I-S Principle
+    // Violating I-S Principle
 
     //The oldFashionedPrinter only Prints!
     //But we only have one interface for all functionalities...
@@ -13,6 +13,7 @@ namespace Services
         public void Print(Document d)
         {
             //implementation of print method
+
         }
         public void Fax(Document d)
         {

@@ -1,5 +1,6 @@
 ﻿using Interfaces;
 using Models;
+using Services;
 using static System.Console;
 
 namespace ConsoleApp1
@@ -7,11 +8,16 @@ namespace ConsoleApp1
 
     #region Following the I-S Principle
     //Class implements many interfaces
-    public class CopyMachine : IPrinter, IScanner
+    public class CopyMachine : IPrinter, IScanner,IFax
     {
+        public void Fax(Document d)
+        {
+            throw new NotImplementedException();
+        }
+
         public void Print(Document d)
         {
-            //
+            WriteLine(  $"Whats that document? \nIs it an {d.name}?");
         }
 
         public void Scan(Document d)
@@ -19,66 +25,17 @@ namespace ConsoleApp1
            //
         }
     }
-    public class MultiDevice : IMultiMachine
-    {
-        private IPrinter printer;
-        private IScanner scanner;
-        private IFax fax;
-
-        public MultiDevice(IPrinter printer, IScanner scanner, IFax fax)
-        {
-            if(printer == null)     
-            {
-                throw new ArgumentNullException(paramName : nameof(printer));
-            }
-            if (scanner == null)
-            {
-                throw new ArgumentNullException(paramName: nameof(scanner));
-            }
-            if (fax == null)
-            {
-                throw new ArgumentNullException(paramName: nameof(fax));
-            }
-            this.printer = printer;
-            this.scanner = scanner;
-            this.fax = fax;
-        }
-
-        public void Fax(Document d)
-        {
-            fax.Fax(d);
-        }
-
-        public void Print(Document d)
-        {
-            printer.Print(d);
-        }
-
-        public void Scan(Document d)
-        {
-            scanner.Scan(d);
-        }
-
-        //public void Scan(Document d)
-        //{
-        //    //
-        //}
-        //public void Print(Document d)
-        //{
-        //   //
-        //}
-        //public void Fax(Document d)
-        //{
-        //   //
-        //}
-    }
     #endregion
 
     internal class Program
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello, World!");
+            Document document = new Document("Id");
+            CopyMachine copyMachine = new CopyMachine();
+            MultiDevice multiDevice = new MultiDevice(copyMachine, copyMachine, copyMachine);
+
+            multiDevice.Print(document);
         }
     }
 }
