@@ -1,59 +1,18 @@
 ﻿using System.Security.Cryptography.X509Certificates;
+using _03_Liskov_Substitution.Models;
 using static System.Console;
 
 namespace _03_Liskov_Substitution
 {
-
-    public class Rectangle
-    {
-        //public int Width { get; set;}
-        //public int Height { get; set;}
-
-        public virtual int Width { get; set; }
-        public virtual int Height { get; set; }
-
-
-        public Rectangle()
-        {
-        }
-        public Rectangle( int width,int height)
-        {
-            Width = width;
-            Height = height;
-        }
-        public override string ToString()
-        {
-            return $"{{{nameof(Width)}:{Width}, {nameof(Height)}:{Height}}}";
-        }
-    }
-    public class Square : Rectangle 
-    {
-        public override int Width 
-        { 
-            set{base.Width = base.Height = value;} 
-        }
-        public override int Height 
-        {
-            set{base.Height = base.Width = value;}
-        }
-    }
-
-
-
-
-
-
-
     internal class Program
     {
-            public static int Area(Rectangle r) => r.Width*r.Height;
-
-
+        public static int Area(Rectangle r) => r.Width * r.Height;
 
         static void Main(string[] args)
         {
-#region  
-            Rectangle rc = new Rectangle(12,33);
+            #region  
+
+            Rectangle rc = new Rectangle(12, 33);
             WriteLine($"{rc} has area {Area(rc)} ");
             //When we use the square class everything works as expected
             WriteLine("Square Class");
@@ -68,7 +27,7 @@ namespace _03_Liskov_Substitution
             Rectangle sq1 = new Square();
             sq1.Width = 4;
             WriteLine($"{sq1} has area {Area(sq1)} ");
-#endregion
+            #endregion
         }
     }
-} 
+}
