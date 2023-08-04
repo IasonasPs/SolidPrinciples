@@ -53,16 +53,16 @@ namespace _02_OpenClosedPrinciple
             var outcome04 = bF.Filter(products, largeSpec);
             outcome04.ToList().ForEach(product => { WriteLine(product); });
             WriteLine("Blue and small products");
-            AndSpecification<Product> and = new AndSpecification<Product>(blueSpec, smallSpec);
-            var outcome05 = bF.Filter(products, and);
+            AndSpecification<Product> blueAndSmall = new AndSpecification<Product>(blueSpec, smallSpec);
+            var outcome05 = bF.Filter(products, blueAndSmall);
             outcome05.ToList().ForEach(WriteLine);
             #endregion
             WriteLine("=================================================================");
 
             var generic0 = new GenericSpecification<Color, Size>(Color.blue, Size.small);
             var outcome06 = bF.Filter(products, generic0); //it doesnt call the bf.Filter() method here!!!WHY????
-            outcome06.ToList().ForEach(WriteLine);//indtead it calls it here
-
+            outcome06.ToList().ForEach(WriteLine);//instead it calls it here!
+            WriteLine("* * * * * * * * * * *");
             var generic1 = new GenericSpecification<Size, Color>(Size.small, Color.red);
             var outcome07 = bF.Filter(products, generic1);
             outcome07.ToList().ForEach(WriteLine);
